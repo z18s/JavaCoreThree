@@ -1,24 +1,11 @@
 package lesson_3;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.*;
-
-/**
- * 1. Прочитать файл (около 50 байт) в байтовый массив и вывести этот массив в консоль;
- * 2. Последовательно сшить 5 файлов в один (файлы примерно 100 байт). Может пригодиться следующая конструкция:
- * ArrayList<InputStream> al = new ArrayList<>(); ... Enumeration<InputStream> e = Collections.enumeration(al);
- * 3. Написать консольное приложение, которое умеет постранично читать текстовые файлы (размером > 10 mb).
- * Вводим страницу (за страницу можно принять 1800 символов), программа выводит ее в консоль. Контролируем время
- * выполнения: программа не должна загружаться дольше 10 секунд, а чтение – занимать свыше 5 секунд.
- * 4. Сделать клиен-серверное приложение. Передать по сети сеарилизованный объект.
- */
 
 public class HomeworkThree {
 
-    public static <FileOutputStreamStream> void main(String[] args) {
+    public static void main(String[] args) {
 
         // Task 1
 
