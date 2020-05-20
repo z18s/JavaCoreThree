@@ -8,6 +8,7 @@ import logic.Command;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class MyServer {
     private final int port;
     private final List<ClientHandler> clients;
     private final AuthService authService;
+
+    private static Connection connection;
+    private static Statement stmt;
 
     public MyServer(int port) {
         this.port = port;
@@ -25,6 +29,14 @@ public class MyServer {
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server is running.");
+
+            try {
+                connectDatabase();
+            } catch (ClassNotFoundException | SQLException e) {
+                System.err.println("Failed to database connection!");
+                e.printStackTrace();
+            }
+
             authService.start();
 
             //noinspection InfiniteLoopStatement
@@ -48,6 +60,7 @@ public class MyServer {
             e.printStackTrace();
         } finally {
             authService.stop();
+            disconnectDatabase();
         }
     }
 
@@ -96,6 +109,56 @@ public class MyServer {
                 client.sendMessage(command);
                 return;
             }
+        }
+    }
+
+    public static void connectDatabase() throws ClassNotFoundException, SQLException {
+        Class.forName("org.sqlite.JDBC");
+        connection = DriverManager.getConnection("jdbc:sqlite:NetworkServer/src/server_work/events.db");
+        stmt = connection.createStatement();
+
+        stmt.executeUpdate("CREATE TABLE IF NOT EXISTS connections " +
+                "(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, connect_type TEXT, connect_at DATETIME);");
+    }
+
+    public static void disconnectDatabase() {
+        try {
+            connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void logAuthDatabase(String name) {
+        try {
+            stmt.executeUpdate(String.format(
+                    "INSERT INTO connections (name, connect_type, connect_at) " +
+                            "VALUES ('%s', 'auth_success', CURRENT_TIMESTAMP);", name
+            ));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void logAuthFailedDatabase(String name) throws SQLException {
+        stmt.executeUpdate(String.format(
+                "INSERT INTO connections (name, connect_type, connect_at) " +
+                        "VALUES ('%s', 'auth_failed', CURRENT_TIMESTAMP);", name
+        ));
+    }
+
+    public static void logQuitDatabase(String name) {
+        try {
+            if (name == null) {
+                logAuthFailedDatabase("Unknown");
+            } else {
+                stmt.executeUpdate(String.format(
+                        "INSERT INTO connections (name, connect_type, connect_at) " +
+                                "VALUES ('%s', 'quit', CURRENT_TIMESTAMP);", name
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 }
