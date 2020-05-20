@@ -7,7 +7,7 @@ public class HomeworkFour {
     private static final char[] sequence = "ABC".toCharArray();
     private static volatile char sym = sequence[0];
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) {
 
         new Thread(new Runnable() {
             @Override
