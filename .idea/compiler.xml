@@ -9,5 +9,8 @@
         <module name="JavaCoreThree" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="NetworkServer" target="14" />
+    </bytecodeTargetLevel>
   </component>
 </project>
