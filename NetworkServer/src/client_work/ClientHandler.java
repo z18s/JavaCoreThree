@@ -37,6 +37,7 @@ public class ClientHandler {
                 readMessages();
             } catch (IOException e) {
                 System.out.println("Connection has been failed.");
+                MyServer.logQuitDatabase(nickname);
             } finally {
                 closeConnection();
             }
@@ -86,6 +87,7 @@ public class ClientHandler {
                 closeConnection();
             } catch (InterruptedException e) {
                 System.out.println("Connection has been handled.");
+                MyServer.logAuthDatabase(nickname);
             }
         }, "Authentication Time Out Thread");
         threadTimeOut.start();
