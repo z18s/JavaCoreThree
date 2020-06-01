@@ -1,33 +1,31 @@
-package lesson_7;
+public class Petrov {
 
-public class Ivanov {
+    public static int calculate(int a, int b, int c, int d) {
+        return a * b + (c / d);
+    }
 
-    private static int calculate(int a, int b, int c, int d) {
+    public static float calculate(float a, float b, float c, float d) {
         return a * (b + (c / d));
     }
 
-    private static float calculate(float a, float b, float c, float d) {
-        return a * (b + (c / d));
-    }
-
-    private static boolean checkTwoNumbers(int first, int second) {
+    public static boolean checkTwoNumbers(int first, int second) {
         int sum = first + second;
         return sum <= 20 && sum >= 10;
     }
 
-    private static void printIsPositive(int variable) {
+    public static void printIsPositive(int variable) {
         System.out.println("Your number is " + ((variable >= 0) ? "positive" : "negative") + "!");
     }
 
-    private static boolean isNegative(int variable) {
+    public static boolean isNegative(int variable) {
         return (variable < 0);
     }
 
-    private static void printWelcome(String name) {
+    public static void printWelcome(String name) {
         System.out.println("Привет, " + name + "!");
     }
 
-    private static boolean isLeapYear(int year) {
+    public static boolean isLeapYear(int year) {
         return (year % 100 != 0) && (year % 4 == 0) || (year % 400 == 0);
     }
 
