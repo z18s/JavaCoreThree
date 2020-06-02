@@ -27,7 +27,7 @@ public class HomeworkCheckApp {
 
         for (String file : files) {
 
-            Class c = URLClassLoader.newInstance(new URL[]{dir.toURL()}).loadClass(file);
+            Class c = URLClassLoader.newInstance(new URL[]{dir.toURI().toURL()}).loadClass(file);
             Constructor constructor = c.getConstructor();
             Object obj = constructor.newInstance();
 
